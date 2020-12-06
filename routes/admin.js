@@ -1,11 +1,11 @@
 var express = require('express');
-const {render}=require('../app');
-const productsHelpers = require('../helpers/products-helpers');
+const {render, response}=require('../app');
+const productHelpers = require('../helpers/product-helpers');
 var router = express.Router();
-var productHelper=require('../helpers/products-helpers')
+var productHelper=require('../helpers/product-helpers')
 /* GET users listing. */
 router.get('/', function(req, res, next) {
- productsHelpers.getAllProducts().then((products)=>{
+ productHelpers.getAllProducts().then((products)=>{
    console.log(products);
   res.render('admin/view-products',{admin:true,products})
  })
@@ -28,6 +28,13 @@ productsHelpers.addProduct(req.body,(id)=>{
     }
   })
   
+})
+})
+router.get('/delete-product/:id',(req,res)=>{
+let proId=req.params.id
+console.log(proId);
+productHelpers.deleteProduct(proId).then((response)=>{
+  res.redirect('/admin/')
 })
 })
 module.exports = router;
